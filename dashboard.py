@@ -1,14 +1,20 @@
 import streamlit as st
 import snowflake.connector
 import pandas as pd
+import os
+from dotenv import load_dotenv
 
-# --- CONFIGURATION (Same as your extraction script) ---
-SF_ACCOUNT = 'aq12666.af-south-1.aws'
-SF_USER = 'AYOUB23'
-SF_PASSWORD = 'Ayoub@20050222'  
-SF_WAREHOUSE = 'COMPUTE_WH'
-SF_DATABASE = 'ECOMMERCE_DB'
-SF_SCHEMA = 'PUBLIC'
+# Load environment variables from the .env file
+load_dotenv()
+
+# --- CONFIGURATION (SECURE) ---
+SF_ACCOUNT = os.getenv("SNOWFLAKE_ACCOUNT")
+SF_USER = os.getenv("SNOWFLAKE_USER")
+SF_PASSWORD = os.getenv("SNOWFLAKE_PASSWORD")
+SF_ROLE = os.getenv("SNOWFLAKE_ROLE")
+SF_WAREHOUSE = os.getenv("SNOWFLAKE_WAREHOUSE")
+SF_DATABASE = os.getenv("SNOWFLAKE_DATABASE")
+SF_SCHEMA = os.getenv("SNOWFLAKE_SCHEMA")
 
 # --- CONNECT TO SNOWFLAKE ---
 @st.cache_data 
@@ -19,7 +25,8 @@ def load_data():
         account=SF_ACCOUNT,
         warehouse=SF_WAREHOUSE,
         database=SF_DATABASE,
-        schema=SF_SCHEMA
+        schema=SF_SCHEMA,
+        role=SF_ROLE
     )
     # query our CLEAN transformed data
     query = "SELECT * FROM STG_PRODUCTS"
