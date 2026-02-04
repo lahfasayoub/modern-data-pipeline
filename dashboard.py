@@ -11,7 +11,7 @@ SF_DATABASE = 'ECOMMERCE_DB'
 SF_SCHEMA = 'PUBLIC'
 
 # --- CONNECT TO SNOWFLAKE ---
-@st.cache_data # This keeps the data in memory so we don't query Snowflake every time you click a button
+@st.cache_data 
 def load_data():
     conn = snowflake.connector.connect(
         user=SF_USER,
